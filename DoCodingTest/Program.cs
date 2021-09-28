@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace DoCodingTest
+﻿namespace DoCodingTest
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            
         }
     }
 }
