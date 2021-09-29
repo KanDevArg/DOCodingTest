@@ -77,28 +77,13 @@ namespace DoCodingTest
                 default:
                     return;
             }
-            
-            
-            
-            
-            // Console.WriteLine(Trains.CalculateDistance("A-B-C"));
-            // Console.WriteLine(Trains.CalculateDistance("A-D"));
-            // Console.WriteLine(Trains.CalculateDistance("A-D-C"));
-            // Console.WriteLine(Trains.CalculateDistance("A-E-B-C-D"));
-            // Console.WriteLine(Trains.CalculateDistance("A-E-D"));
-            //
-            // Console.WriteLine(Trains.GetNumberOfTripsBetweenStations("C", "C", 3, false));
-            // Console.WriteLine(Trains.GetNumberOfTripsBetweenStations("A", "C", 4, true));
-            // Console.WriteLine(Trains.GetNumberOfTripsBetweenStations("A", "C", 2, true));
-            // Console.WriteLine(Trains.GetNumberOfTripsBetweenStations("B", "B", 3, true));
-            // Console.WriteLine(Trains.GetAllPathsLimitByTotalDistance("C", "C", 30));
-            // Console.ReadLine();
         }
 
         private static void CalculateDistanceOnPath(RoutesCalculator Trains)
         {
-            var routePath = Console.ReadLine();
-            Console.WriteLine($"Distance for path {routePath} = {Trains.CalculateDistance(routePath)}");
+            Console.Write("Enter the route/path: ");
+            var routePath = Console.ReadLine().ToUpper();
+            Console.WriteLine($"Distance for route/path {routePath} = {Trains.CalculateDistance(routePath)}");
             Console.ReadLine();
         }
 
