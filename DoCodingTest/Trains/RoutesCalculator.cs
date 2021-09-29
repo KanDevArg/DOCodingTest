@@ -44,30 +44,28 @@ namespace CandidateTest.TrainsRoutes
         }
 
 
-        public string GetNumberOfTripsBetweenStations(string StationStart, string StationEnd, int maxStops, bool matchMaxStops)
+        public int GetNumberOfTripsBetweenStations(string StationStart, string StationEnd, int maxStops, bool matchMaxStops)
         {
+            trips.Clear();
             NumberOfTripsCalculator(StationStart, StationEnd, maxStops, matchMaxStops, "");
             foreach (var path in trips)
             {
                 Console.WriteLine($"Trip: {path}  TotalDistance:{DistanceCalculator(path)}");
             }
-            
-            trips.Clear();
             Console.WriteLine("---------------------");
-            return "";
+            return trips.Count;
         }
         
-        public string GetAllPathsLimitByTotalDistance(string StationStart, string StationEnd, int totalDistanceLimit)
+        public int GetAllPathsLimitByTotalDistance(string StationStart, string StationEnd, int totalDistanceLimit)
         {
+            trips.Clear();
             NumberOfTripsCalculator(StationStart, StationEnd, "", totalDistanceLimit);
             foreach (var path in trips)
             {
                 Console.WriteLine($"Trip: {path}  TotalDistance:{DistanceCalculator(path)}");
             }
-            
-            trips.Clear();
             Console.WriteLine("---------------------");
-            return "";
+            return trips.Count;
         }
 
         private void NumberOfTripsCalculator(string StationStart, string StationEnd, string piggybackPath, int totalDistanceLimit)
