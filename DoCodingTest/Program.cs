@@ -1,4 +1,5 @@
 ﻿using System;
+using CandidateTest.TrainsRoutes;
 using MarsRoversTask;
 
 namespace DoCodingTest
@@ -25,6 +26,20 @@ namespace DoCodingTest
             Console.WriteLine("\n");
             
             marsRoversApp.PrintRoversCurrentPositions();
+            
+            
+            var Trains = new RoutesCalculator();
+            Console.WriteLine(Trains.CalculateDistance("A-B-C"));
+            Console.WriteLine(Trains.CalculateDistance("A-D"));
+            Console.WriteLine(Trains.CalculateDistance("A-D-C"));
+            Console.WriteLine(Trains.CalculateDistance("A-E-B-C-D"));
+            Console.WriteLine(Trains.CalculateDistance("A-E-D"));
+            
+            Console.WriteLine(Trains.GetNumberOfTripsBetweenStations("C", "C", 3, false));
+            Console.WriteLine(Trains.GetNumberOfTripsBetweenStations("A", "C", 4, true));
+            Console.WriteLine(Trains.GetNumberOfTripsBetweenStations("A", "C", 2, true));
+            Console.WriteLine(Trains.GetNumberOfTripsBetweenStations("B", "B", 3, true));
+            Console.WriteLine(Trains.GetAllPathsLimitByTotalDistance("C", "C", 30));
         }
     }
 }
