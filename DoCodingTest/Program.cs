@@ -141,14 +141,42 @@ namespace DoCodingTest
 
             Console.WriteLine("Initializing rovers positions");
             //Rover 01 - Settings
-            marsRoversApp.SetInitialPositionForRover(Enums.rover.One, 1, 2, Enums.headingDirection.North);
+            Console.WriteLine("Initializing Rover #1");
+            Console.Write("Rover #1 [x] coordinate: ");
+            var rover1X = Console.ReadLine();
+            Console.Write("Rover #1 [y] coordinate: ");
+            var rover1Y = Console.ReadLine();
+            Console.Write("Rover #1 Heading [1:North, 2:East, 3:West, 4:South]: ");
+            var rover1Heading = Console.ReadLine();
+            
+            marsRoversApp.SetInitialPositionForRover(Enums.rover.One, int.Parse(rover1X), int.Parse(rover1Y), (Enums.headingDirection)int.Parse(rover1Heading));
+            
             //Rover 02 - Settings
-            marsRoversApp.SetInitialPositionForRover(Enums.rover.Two, 3, 3, Enums.headingDirection.East);
+            Console.WriteLine("Initializing Rover #2");
+            Console.Write("Rover #1 [x] coordinate: ");
+            var rover2X = Console.ReadLine();
+            Console.Write("Rover #1 [y] coordinate: ");
+            var rover2Y = Console.ReadLine();
+            Console.Write("Rover #1 Heading [1:North, 2:East, 3:West, 4:South]: ");
+            var rover2Heading = Console.ReadLine();
+            marsRoversApp.SetInitialPositionForRover(Enums.rover.Two, int.Parse(rover2X), int.Parse(rover2Y), (Enums.headingDirection)int.Parse(rover2Heading));
             Console.WriteLine("\n");
 
-
-            marsRoversApp.SetInstructionsForRover(Enums.rover.One, "LMLMLMLMM");
-            marsRoversApp.SetInstructionsForRover(Enums.rover.Two, "MMRMMRMRRM");
+            //Instructions
+            Console.WriteLine("Instructions for Rover #1");
+            Console.WriteLine("Enter the sequence of commands. Sample: 'RLLMLMM'");
+            Console.WriteLine("'R': Rotate right, 'L': Rotate left, 'M': Move.");
+            
+            var rover1Instructions = Console.ReadLine();
+            marsRoversApp.SetInstructionsForRover(Enums.rover.One, rover1Instructions.ToUpper());
+            
+            
+            Console.WriteLine("Instructions for Rover #2");
+            Console.WriteLine("Enter the sequence of commands. Sample: 'RLLMLMM'");
+            Console.WriteLine("'R': Rotate right, 'L': Rotate left, 'M': Move.");
+            var rover2Instructions = Console.ReadLine();
+            marsRoversApp.SetInstructionsForRover(Enums.rover.Two, rover2Instructions.ToUpper());
+            
             marsRoversApp.SendCommandsToRovers();
             Console.WriteLine("\n");
 
@@ -158,26 +186,20 @@ namespace DoCodingTest
 
         private static bool GetInputGridLimits(out int xGridLimit, out int yGridLimit)
         {
-            Console.WriteLine(
-                "Insert grid limits [xLimit] [yLimit]. Values should be greater than zero. Separate values with spaces");
-            var gridLimits = Console.ReadLine().Trim();
-            var limits = gridLimits.Split(" ");
-            if (limits.Length < 2)
-            {
-                Console.WriteLine("Some grid limits values are missing.");
-                Console.ReadLine();
-                xGridLimit = 0;
-                yGridLimit = 0;
-                return true;
-            }
+            Console.WriteLine("Insert grid limits [xLimit] [yLimit]. Values should be greater than zero.");
+            
+            Console.Write("x Grid limit: ");
+            var xGridLimitInput = Console.ReadLine();
+            
+            Console.Write("y Grid limit: ");
+            var yGridLimitInput = Console.ReadLine();
 
-            xGridLimit = 0;
-            yGridLimit = 0;
-
-            if (!int.TryParse(limits[0], out xGridLimit) || !int.TryParse(limits[1], out yGridLimit))
+            if (!int.TryParse(xGridLimitInput, out xGridLimit ) || !int.TryParse(yGridLimitInput, out yGridLimit))
             {
                 Console.WriteLine("Grid limits are not numeric.");
                 Console.ReadLine();
+                xGridLimit = 0;
+                yGridLimit = 0;
                 return true;
             }
 

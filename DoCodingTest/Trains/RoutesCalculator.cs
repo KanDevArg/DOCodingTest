@@ -11,7 +11,7 @@ namespace CandidateTest.TrainsRoutes
         public RoutesCalculator()
         {
             trips = new List<string>();
-            SetStations();
+            SetStationsDirectGraph();
         }
         
         public string CalculateDistance(string path)
@@ -19,6 +19,13 @@ namespace CandidateTest.TrainsRoutes
             var totalDistance = DistanceCalculator(path);
             return totalDistance > 0 ? totalDistance.ToString() : "NO SUCH ROUTE";
         }
+        
+        /// <summary>
+        /// Given a route, such as A-B-C, it will the return the sum of the distances between each station on the path.
+        /// If route can not be found, 0 will be returned. 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         private int DistanceCalculator(string path)
         {
             var stationNames = path.Split("-");
@@ -89,6 +96,14 @@ namespace CandidateTest.TrainsRoutes
             return trips.Count;
         }
 
+        /// <summary>
+        /// Calculate the number of feasible trips between 2 stations. Anchor for recursion is determined by [totalDistanceLimit]
+        /// param value.
+        /// </summary>
+        /// <param name="StationStart"></param>
+        /// <param name="StationEnd"></param>
+        /// <param name="piggybackPath"></param>
+        /// <param name="totalDistanceLimit"></param>
         private void NumberOfTripsCalculator(string StationStart, string StationEnd, string piggybackPath, int totalDistanceLimit)
         {
             var trimmedPiggyBackPath = piggybackPath.TrimEnd('-');
@@ -111,6 +126,15 @@ namespace CandidateTest.TrainsRoutes
             }
         }
         
+        /// <summary>
+        /// Calculate the number of feasible trips between 2 stations. Anchor for recursion is determined by [maxStops] and
+        /// [matchMaxStops] params values.
+        /// </summary>
+        /// <param name="StationStart"></param>
+        /// <param name="StationEnd"></param>
+        /// <param name="maxStops"></param>
+        /// <param name="matchMaxStops"></param>
+        /// <param name="piggybackPath"></param>
         private void NumberOfTripsCalculator(string StationStart, string StationEnd, int maxStops, bool matchMaxStops, string piggybackPath)
         {
             var trimmedPiggyBackPath = piggybackPath.TrimEnd('-');
@@ -144,7 +168,7 @@ namespace CandidateTest.TrainsRoutes
             // });
         }
         
-        private void SetStations()
+        private void SetStationsDirectGraph()
         {
             stations = new Dictionary<string, Station>
             {

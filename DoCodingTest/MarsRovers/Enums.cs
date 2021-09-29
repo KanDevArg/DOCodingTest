@@ -4,10 +4,10 @@ namespace MarsRoversTask
     {
         public enum headingDirection
         {
-            North,
-            East,
-            South,
-            West
+            North =1,
+            East =2,
+            West =3,
+            South =4
         }
     
         public enum rotateDirection
