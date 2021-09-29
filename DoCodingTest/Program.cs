@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Markup;
 using CandidateTest.TrainsRoutes;
+using DoCodingTest.SalesTaxes;
 using MarsRoversTask;
 
 namespace DoCodingTest
@@ -23,7 +25,8 @@ namespace DoCodingTest
             Console.WriteLine("Choose a task option:");
             Console.WriteLine("1) Mars Rovers");
             Console.WriteLine("2) Trains");
-            Console.WriteLine("3) Exit");
+            Console.WriteLine("3) Taxes");
+            Console.WriteLine("4) Exit");
             Console.Write("\r\nSelect an option: ");
  
             switch (Console.ReadLine())
@@ -35,11 +38,59 @@ namespace DoCodingTest
                     TrainsTask();
                     return true;
                 case "3":
+                    Taxes();
+                    return false;
+                case "4":
                     return false;
                 default:
                     return true;
             }
         }
+        
+        private static void Taxes()
+        {
+            Console.Clear();
+            var Taxes = new ReceiptBuilder();
+            var basket = new List<Product>();
+            
+            var book = new Product("Book", false, (decimal)12.49, ProductType.noTaxed);
+            
+            basket = new List<Product>()
+             {
+                 book,
+                 book, 
+                 new Product("Music CD", false, (decimal)14.99, ProductType.basicTaxed),
+                 new Product("Chocolate Bar", false, (decimal)0.85, ProductType.noTaxed),
+             };
+            
+            Taxes.PrintReceipt(basket);
+            
+            
+            basket.Clear();
+            basket = new List<Product>()
+            {
+                new Product("Imported box of chocolates", true, (decimal)10.00, ProductType.noTaxed),
+                new Product("Imported bottle of perfume", true, (decimal)47.50, ProductType.basicTaxed),
+            };
+            
+            Taxes.PrintReceipt(basket);
+            
+            
+            basket.Clear();
+            var importedChocolateBox = new Product("Imported box of chocolates", true, (decimal)11.25, ProductType.noTaxed);
+            basket = new List<Product>()
+            {
+                new Product("Imported bottle of perfume", true,  (decimal)27.99, ProductType.basicTaxed),
+                new Product("Bottle of perfume", false, (decimal)18.99, ProductType.basicTaxed),
+                new Product("Packet of headache pills", false,  (decimal)9.75, ProductType.noTaxed),
+                importedChocolateBox,
+                importedChocolateBox
+            };
+            
+            Taxes.PrintReceipt(basket);
+            Console.ReadLine();
+        }
+        
         private static void TrainsTask()
         {
             Console.Clear();
