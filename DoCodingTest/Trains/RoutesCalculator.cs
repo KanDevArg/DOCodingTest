@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CandidateTest.TrainsRoutes
 { 
@@ -42,8 +43,7 @@ namespace CandidateTest.TrainsRoutes
 
             return distance;
         }
-
-
+        
         public int GetNumberOfTripsBetweenStations(string StationStart, string StationEnd, int maxStops, bool matchMaxStops)
         {
             trips.Clear();
@@ -56,10 +56,31 @@ namespace CandidateTest.TrainsRoutes
             return trips.Count;
         }
         
+        public string GetShortestTripBetweenStations(string StationStart, string StationEnd, int maxStops, bool matchMaxStops)
+        {
+            var pathsAndDistance = new Dictionary<string, int>();
+            trips.Clear();
+            NumberOfTripsCalculator(StationStart, StationEnd, maxStops, matchMaxStops, "");
+            foreach (var path in trips)
+            {
+                if (!pathsAndDistance.ContainsKey(path)) {
+                    pathsAndDistance.Add(path, DistanceCalculator(path));    
+                }
+                Console.WriteLine($"Trip: {path}  TotalDistance:{DistanceCalculator(path)}");
+            }
+            Console.WriteLine("---------------------");
+
+            var myList = pathsAndDistance.ToList();
+            myList.Sort((pair1,pair2) => pair1.Value.CompareTo(pair2.Value));
+            
+            
+            return trips.Count > 0 ? myList.First().Key : string.Empty;
+        }
+        
         public int GetAllPathsLimitByTotalDistance(string StationStart, string StationEnd, int totalDistanceLimit)
         {
             trips.Clear();
-            NumberOfTripsCalculator(StationStart, StationEnd, "", totalDistanceLimit);
+            NumberOfTripsCalculator(StationStart.ToUpper(), StationEnd.ToUpper(), "", totalDistanceLimit);
             foreach (var path in trips)
             {
                 Console.WriteLine($"Trip: {path}  TotalDistance:{DistanceCalculator(path)}");
@@ -133,6 +154,10 @@ namespace CandidateTest.TrainsRoutes
                 {"D", new Station() {Name = "D", Routes = new Dictionary<string, int>() {{"C", 8}, {"E", 6},}}},
                 {"E", new Station() {Name = "E", Routes = new Dictionary<string, int>() {{"B", 3},}}}
             };
+        }
+        public int NumberOfStations()
+        {
+            return stations.Count;
         }
     }
 }

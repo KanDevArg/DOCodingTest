@@ -124,12 +124,11 @@ namespace DoCodingTest
             var stationA = Console.ReadLine();
             Console.Write("To station: ");
             var stationB = Console.ReadLine();
-            
-            // Console.WriteLine(Trains.GetNumberOfTripsBetweenStations("A", "C", 2, true));
-            var numberOfTrips =
-                Trains.GetNumberOfTripsBetweenStations(stationA, stationB, 2, true);
 
-            Console.WriteLine($"Number of trips: {numberOfTrips}");
+            var shortestPath =  Trains.GetShortestTripBetweenStations(stationA, stationB, 12, false);
+            
+            
+            Console.WriteLine($"Distance of shortest route {shortestPath}: {Trains.CalculateDistance(shortestPath)}");
             Console.ReadLine();
         }
         
