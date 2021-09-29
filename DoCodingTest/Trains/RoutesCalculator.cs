@@ -80,7 +80,7 @@ namespace CandidateTest.TrainsRoutes
         public int GetAllPathsLimitByTotalDistance(string StationStart, string StationEnd, int totalDistanceLimit)
         {
             trips.Clear();
-            NumberOfTripsCalculator(StationStart.ToUpper(), StationEnd.ToUpper(), "", totalDistanceLimit);
+            NumberOfTripsCalculator(StationStart, StationEnd, "", totalDistanceLimit);
             foreach (var path in trips)
             {
                 Console.WriteLine($"Trip: {path}  TotalDistance:{DistanceCalculator(path)}");

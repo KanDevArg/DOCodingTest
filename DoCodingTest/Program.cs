@@ -90,11 +90,11 @@ namespace DoCodingTest
         private static void CalculateNumberOfTripsQuery(RoutesCalculator Trains, bool matchMaxStops)
         {
             Console.Write("From station: ");
-            var stationA = Console.ReadLine();
+            var stationA = Console.ReadLine().ToUpper();
             Console.Write("To station: ");
-            var stationB = Console.ReadLine();
+            var stationB = Console.ReadLine().ToUpper();
             Console.Write("Max Stops: ");
-            var maxStops = Console.ReadLine();
+            var maxStops = Console.ReadLine().ToUpper();
 
             var numberOfTrips =
                 Trains.GetNumberOfTripsBetweenStations(stationA, stationB, int.Parse(maxStops), matchMaxStops);
@@ -106,9 +106,9 @@ namespace DoCodingTest
         private static void CalculateDistanceOnShortestPathQuery(RoutesCalculator Trains)
         {
             Console.Write("From station: ");
-            var stationA = Console.ReadLine();
+            var stationA = Console.ReadLine().ToUpper();
             Console.Write("To station: ");
-            var stationB = Console.ReadLine();
+            var stationB = Console.ReadLine().ToUpper();
 
             var shortestPath =  Trains.GetShortestTripBetweenStations(stationA, stationB, 12, false);
             
@@ -120,9 +120,9 @@ namespace DoCodingTest
         private static void CalculateNumberOfTripsQueryWithDistanceLimit(RoutesCalculator Trains)
         {
             Console.Write("From station: ");
-            var stationA = Console.ReadLine();
+            var stationA = Console.ReadLine().ToUpper();
             Console.Write("To station: ");
-            var stationB = Console.ReadLine();
+            var stationB = Console.ReadLine().ToUpper();
             Console.Write("Distance limit: ");
             var distance = Console.ReadLine();
             
