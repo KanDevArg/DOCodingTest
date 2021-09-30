@@ -179,9 +179,5 @@ namespace CandidateTest.TrainsRoutes
                 {"E", new Station() {Name = "E", Routes = new Dictionary<string, int>() {{"B", 3},}}}
             };
         }
-        public int NumberOfStations()
-        {
-            return stations.Count;
-        }
     }
 }

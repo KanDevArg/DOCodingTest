@@ -31,7 +31,10 @@ namespace MarsRoversTask
             _y = y;
             _z = z;
         }
-
+        /// <summary>
+        /// Calculate new rover heading considering current heading plus rotation movement applied on the rover
+        /// </summary>
+        /// <param name="rotateDirection"></param>
         public void SetHeading(Enums.rotateDirection rotateDirection)
         {
             _z = Z switch

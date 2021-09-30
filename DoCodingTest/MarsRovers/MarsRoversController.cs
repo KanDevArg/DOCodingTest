@@ -50,33 +50,5 @@ namespace MarsRoversTask
                 rov.Value.PrintCurrentPosition();
             }
         }
-        
-        public bool InitializeGridLimits(out int xGridLimit, out int yGridLimit)
-        {
-            Console.WriteLine(
-                "Insert grid limits [xLimit] [yLimit]. Values should be greater than zero. Separate values with spaces");
-            var gridLimits = Console.ReadLine().Trim();
-            var limits = gridLimits.Split(" ");
-            if (limits.Length < 2)
-            {
-                Console.WriteLine("Some grid limits values are missing.");
-                Console.ReadLine();
-                xGridLimit = 0;
-                yGridLimit = 0;
-                return true;
-            }
-
-            xGridLimit = 0;
-            yGridLimit = 0;
-
-            if (!int.TryParse(limits[0], out xGridLimit) || !int.TryParse(limits[1], out yGridLimit))
-            {
-                Console.WriteLine("Grid limits are not numeric.");
-                Console.ReadLine();
-                return true;
-            }
-
-            return false;
-        }
     }
 }
