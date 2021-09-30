@@ -43,7 +43,7 @@ namespace DoCodingTest.SalesTaxes
                         Who = "Display Item",
                         Title = p.Title,
                         Count = p.Count,
-                        Tax = CalculateTax(p.DisplayPrice, p.Imported, p.ProductType),
+                        Tax = RoundToNearest5Cents(CalculateTax(p.DisplayPrice, p.Imported, p.ProductType)),
                         DisplayPrice = p.DisplayPrice,
                         UnitPrice = p.UnitPrice,
                         Imported = p.Imported,
@@ -58,8 +58,8 @@ namespace DoCodingTest.SalesTaxes
                         Who = "Display Item",
                         Title = p.Title,
                         Count = p.Count,
-                        Tax = RoundUpLast5Cents(p.Tax),
-                        DisplayPrice = Math.Round(p.DisplayPrice + RoundUpLast5Cents(p.Tax), 2),
+                        Tax = p.Tax,
+                        DisplayPrice = p.DisplayPrice + p.Tax,
                         UnitPrice = p.UnitPrice,
                         Imported = p.Imported,
                         ProductType = p.ProductType
@@ -86,21 +86,22 @@ namespace DoCodingTest.SalesTaxes
             Console.WriteLine("--------------------------------------------------------------------------------");
             
             
-            foreach (var item in roundedPrices)
-            {
+            foreach (var item in roundedPrices) {
                 Console.Write("- \t");
                 Console.Write(item.Title );
                 Console.Write("\t\t\t\t");
                 Console.Write(item.Count);
                 Console.Write("\t");
-                Console.Write(item.DisplayPrice);
+                Console.Write(int.Parse(item.Count) > 1
+                    ? $"{Math.Round(item.DisplayPrice, 2)} ( {item.Count} @ {Math.Round(item.DisplayPrice / int.Parse(item.Count), 2)})"
+                    : $"{Math.Round(item.DisplayPrice, 2)}");
                 Console.WriteLine();
             }
 
 
             Console.WriteLine();
-            Console.WriteLine($"Sales Taxes: {totals.First().TotalTaxes.ToString()}");
-            Console.WriteLine($"Total: {totals.First().Total.ToString()}");
+            Console.WriteLine($"Sales Taxes: {Math.Round(totals.First().TotalTaxes, 2).ToString()}");
+            Console.WriteLine($"Total: {Math.Round(totals.First().Total, 2).ToString()}");
             Console.WriteLine("\n");
         }
 
@@ -115,30 +116,61 @@ namespace DoCodingTest.SalesTaxes
             };
         }
         
-        private decimal RoundUpLast5Cents(decimal price)
+        private decimal RoundToNearest5Cents(decimal price)
         {
-            var arrPrice = price.ToString().Split(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+            var decimalSeparator = Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            var arrPrice = price.ToString().Split(decimalSeparator);
 
+            var tenth = "";
+            var hundredth = "";
+            var thousandth = "";
+            
             if (arrPrice.Length <= 1) return price;
-
-            var ss = arrPrice[1].Substring(1, arrPrice[1].Length - 1);
+            if (arrPrice[1].Length == 0) return price;
             
-            var second = int.Parse(ss);
-
-            if (second == 0 || second == 50) return price;
+            var sub01 = arrPrice[1];
+            if (arrPrice[1].Length > 3) {
+               sub01 = arrPrice[1][..3];
+            }
             
-            if (second< 50 )
+            tenth = "" + sub01[0];
+            if (sub01.Length > 1)
             {
-                var numberValue = arrPrice[0];
-                var decimalValues = arrPrice[1].Substring(0, 1);
-                return ((decimal.Parse(numberValue + decimalValues + "5")) / 100);
+                hundredth = "" + sub01[1];
             }
-            else
+            if (sub01.Length > 2)
             {
-                var numberValue = arrPrice[0];
-                var decimalValues = arrPrice[1].Substring(0, 1);
-                return ((decimal.Parse(numberValue + (int.Parse(decimalValues)+1) + "0")) / 100);
+                thousandth = "" + sub01[2];
             }
+            
+            var value = int.Parse(tenth);
+            
+            if (thousandth != "") {
+                value = int.Parse(thousandth);
+            }
+            else {
+                if (hundredth != "") { 
+                    value = int.Parse(hundredth);
+                }    
+            }
+
+            if (value >= 0 && value <= 2) {
+                hundredth = "0";
+                thousandth = "0";
+            }
+
+            if (value >= 3 && value <= 7) {
+                hundredth = "5";
+                thousandth = "0";
+            }
+            
+            if (value == 8 || value == 9) {
+                hundredth = "0";
+                thousandth = "0";
+                tenth = (int.Parse(tenth) +1).ToString();
+            }
+
+            return ((decimal.Parse(arrPrice[0] + decimalSeparator + tenth + hundredth + thousandth)));
         }
     }
 }
