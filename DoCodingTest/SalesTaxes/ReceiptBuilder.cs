@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Reflection.Metadata;
-using System.Reflection.PortableExecutable;
 using System.Threading;
 
 namespace DoCodingTest.SalesTaxes
@@ -121,26 +118,25 @@ namespace DoCodingTest.SalesTaxes
             var decimalSeparator = Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator;
             var arrPrice = price.ToString().Split(decimalSeparator);
 
-            var tenth = "";
             var hundredth = "";
             var thousandth = "";
             
             if (arrPrice.Length <= 1) return price;
             if (arrPrice[1].Length == 0) return price;
             
-            var sub01 = arrPrice[1];
+            var decimalChunk = arrPrice[1];
             if (arrPrice[1].Length > 3) {
-               sub01 = arrPrice[1][..3];
+               decimalChunk = arrPrice[1][..3];
             }
             
-            tenth = "" + sub01[0];
-            if (sub01.Length > 1)
+            var tenth = "" + decimalChunk[0];
+            if (decimalChunk.Length > 1)
             {
-                hundredth = "" + sub01[1];
+                hundredth = "" + decimalChunk[1];
             }
-            if (sub01.Length > 2)
+            if (decimalChunk.Length > 2)
             {
-                thousandth = "" + sub01[2];
+                thousandth = "" + decimalChunk[2];
             }
             
             var value = int.Parse(tenth);

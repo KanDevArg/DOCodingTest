@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Globalization;
 using System.Windows.Markup;
 using CandidateTest.TrainsRoutes;
@@ -10,11 +11,25 @@ namespace DoCodingTest
 {
     static class Program
     {
+        private static string selectedTax = "";
+        
         static void Main(string[] args)
         {
             var showMenu = true;
             while (showMenu)
             {
+                if (selectedTax == "Trains")
+                {
+                    TrainsTask();
+                    continue;
+                }
+                
+                if (selectedTax == "MarsRovers")
+                {
+                    MarsRoversTask();
+                    continue;
+                }
+                
                 showMenu = MainMenu();
             }
         }
@@ -32,14 +47,16 @@ namespace DoCodingTest
             switch (Console.ReadLine())
             {
                 case "1":
+                    selectedTax = "MarsRovers";
                     MarsRoversTask();
                     return true;
                 case "2":
+                    selectedTax = "Trains";
                     TrainsTask();
                     return true;
                 case "3":
-                    Taxes();
-                    return false;
+                    TaxesTask();
+                    return true;
                 case "4":
                     return false;
                 default:
@@ -47,7 +64,7 @@ namespace DoCodingTest
             }
         }
         
-        private static void Taxes()
+        private static void TaxesTask()
         {
             Console.Clear();
             var Taxes = new ReceiptBuilder();
@@ -124,6 +141,7 @@ namespace DoCodingTest
                     CalculateDistanceOnShortestPathQuery(Trains);
                     return;
                 case "6":
+                    selectedTax = "";
                     return;
                 default:
                     return;
@@ -233,6 +251,13 @@ namespace DoCodingTest
 
             marsRoversApp.PrintRoversCurrentPositions();
             Console.ReadLine();
+            
+            Console.WriteLine("Press 'q' for Main menu");
+            var keyPressed = Console.ReadLine();
+            if (keyPressed.ToUpper() == "Q")
+            {
+                selectedTax = "";
+            }
         }
 
         private static bool GetInputGridLimits(out int xGridLimit, out int yGridLimit)
